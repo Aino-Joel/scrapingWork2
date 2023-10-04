@@ -36,17 +36,13 @@
             <a href="index.php" class="brand-logo brand-text">Group ALPHA</a>
             <ul id="nav-mobile" class="right hide-on-small-and-down">
                 <li><a href="chart.php" class="btn brand z-depth-0">Chart</a></li>
+                <button class="btn brand" id="scrapeBtn">SCRAPE</button>
             </ul>
         </div>
     </nav> 
 
 <h4>Python Jobs</h4>
-<!-- <form action="index.php" method="get">
-    <div id="searchBar">
-    <input id="search" name="unfam" type="text" placeholder="Enter Unfamiliar Skill">
-    <input type="submit" name="search" value="Go" class="btn">
-    </div>
-</form> -->
+
 <br>
 <div id="view">
     <table border="1">
@@ -77,5 +73,26 @@
     </table>
     </div>
 
+<script>
+        const scrapeButton = document.getElementById('scrapeBtn');
+
+        scrapeButton.addEventListener('click', () => {
+            fetch('http://127.0.0.1:5000/execute-scraping', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == 'success') {
+                    alert('Scraping completed successfully.');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>
