@@ -57,6 +57,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Picking the row data -->
             <?php
     include 'connect.php';
 
@@ -77,25 +78,35 @@
     </div>
 
 <script>
-        const scrapeButton = document.getElementById('scrapeBtn');
+    // Get the button element with the ID 'scrapeBtn' and store it in the 'scrapeButton' variable.
+    const scrapeButton = document.getElementById('scrapeBtn');
 
-        scrapeButton.addEventListener('click', () => {
-            fetch('http://127.0.0.1:5000/execute-scraping', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status == 'success') {
-                    alert('Scraping completed successfully.');
-                    location.reload();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    // Add a click event listener to the 'scrapeButton'.
+    scrapeButton.addEventListener('click', () => {
+        // Send an HTTP POST request to the flask server.
+        fetch('http://127.0.0.1:5000/execute-scraping', {
+            method: 'POST' // Specify the HTTP method as POST.
+        })
+        // Once the response is received, parse it as JSON.
+        .then(response => response.json())
+        // Handle the parsed JSON data.
+        .then(data => {
+            // Check if the 'status' property in the JSON data is 'success'.
+            if (data.status == 'success') {     // If 'status' is 'success', show a success alert to the user.
+                alert('Scraping completed successfully.');
+                // Reload the current page.
+                location.reload();
+            } else {
+                // If 'status' is not 'success', show an error alert with the error message from the JSON data.
+                alert('Error: ' + data.message);
+            }
+        })
+        // Catch and handle any errors that occur during the fetch operation.
+        .catch(error => {
+            console.error('Error:', error);
         });
+    });
+
     </script>
 </body>
 </html>

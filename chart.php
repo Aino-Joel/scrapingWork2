@@ -49,39 +49,66 @@ mysqli_close($con);
 <br><br><canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 
 <script>
+    // Define an empty array to hold skill values
     var xValues = [];
-     <?php 
-     $skillArr = array();
-     foreach($jobs as $job){ 
-         foreach(explode(',',$job['required_skills']) as $skill){
-            array_push($skillArr, $skill) ;}
+
+    <?php 
+    // Initialize an empty array to store the skills
+    $skillArr = array();
+
+    //Loop through each job item 
+    foreach($jobs as $job){ 
+        
+        //Loop through the 'required_skills' element of each job and seperate the skills where a comma appears
+        foreach(explode(',',$job['required_skills']) as $skill){
+
+            //Append each skill to the skillArr array
+            array_push($skillArr, $skill);
+        }
+
+        //Convert the PHP array into JSON for transfer to Javascript
         $skills = json_encode($skillArr);
-        echo("\nxValues =".$skills);
-     } ?>
+    }
 
-function count(arr){
-    const counts = {};
-    arr.forEach(element =>{
-        counts[element]=(counts[element] || 0)+1;
-    });
-    return counts;
-}
+        //Store the final values from skillArr in the xValues javascript array
+        echo("xValues =".$skills);
+     ?>
 
-    plotVals = ["rest","javascript","django","others","database","sql"]
+    // Function to count occurrences of elements in an array
+    function count(arr){
+        const counts = {};
+        arr.forEach(element =>{
+            counts[element]=(counts[element] || 0)+1;
+        });
+        return counts;
+    }
+
+    // Define an array of popular skills for the chart
+    plotVals = ["rest","javascript","django","others","database","sql"];
+
+    // Count the occurrences of skills in xValues array
     vals = count(xValues);
+
+    // Define an array of popular skills to be excluded from the 'others' section
     const popular = ["sql","rest", "javascript", "django", "database","python","\npython","\r\n\r\nrest","restapi","sql","postgresql","mysql"]
+    
+    // Initialize a variable for counting other skills
     var others = 0
+    
+    // Loop through the counted values
     for(const key in vals){
+        // Check if the skill is not in the popular array
         if(!popular.includes(key)){
             others+=vals[key];
         }else{
             continue;
         }
     }
-    // console.log(others);
-    console.log(vals);
+    
+    // Define an array of yValues for the chart
     const yValues = [(vals.rest+vals.restapi),vals.javascript,vals.django,others,vals.database,(vals.sql+vals.postgresql+vals.mysql)]
 
+    // Define an array of colors for pie chart
     var barColors = [
     "#b91d47",
     "#00aba9",
@@ -91,6 +118,7 @@ function count(arr){
     "#1e7145"
     ];
 
+    // Create a pie chart using Chart.js
     new Chart("myChart", {
     type: "pie",
     data: {
@@ -108,7 +136,6 @@ function count(arr){
         }
     }
     });
-    
 </script>
 
 </body>
