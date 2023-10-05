@@ -47,6 +47,10 @@
 <h4>Python Jobs</h4>
 
 <br>
+<div class="loading-overlay">
+  <div class="loader"></div>
+</div>
+
 <div id="view">
     <table border="1">
         <thead>
@@ -57,7 +61,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Picking the row data -->
+            <!-- Fetch the row data -->
             <?php
     include 'connect.php';
 
@@ -78,11 +82,24 @@
     </div>
 
 <script>
+    // Function to show the loading overlay
+    function showLoadingOverlay() {
+    const overlay = document.querySelector('.loading-overlay');
+    overlay.style.display = 'block';
+    }
+
+    // Function to hide the loading overlay
+    function hideLoadingOverlay() {
+    const overlay = document.querySelector('.loading-overlay');
+    overlay.style.display = 'none';
+    }
+
     // Get the button element with the ID 'scrapeBtn' and store it in the 'scrapeButton' variable.
     const scrapeButton = document.getElementById('scrapeBtn');
 
     // Add a click event listener to the 'scrapeButton'.
     scrapeButton.addEventListener('click', () => {
+        showLoadingOverlay();
         // Send an HTTP POST request to the flask server.
         fetch('http://127.0.0.1:5000/execute-scraping', {
             method: 'POST' // Specify the HTTP method as POST.
@@ -96,9 +113,11 @@
                 alert('Scraping completed successfully.');
                 // Reload the current page.
                 location.reload();
+                hideLoadingOverlay();
             } else {
                 // If 'status' is not 'success', show an error alert with the error message from the JSON data.
                 alert('Error: ' + data.message);
+                hideLoadingOverlay();
             }
         })
         // Catch and handle any errors that occur during the fetch operation.
