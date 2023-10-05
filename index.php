@@ -35,8 +35,11 @@
         <div class="container">
             <a href="index.php" class="brand-logo brand-text">Group ALPHA</a>
             <ul id="nav-mobile" class="right hide-on-small-and-down">
+                <li><button class="btn brand" id="scrapeBtn">SCRAPE</button></li>
                 <li><a href="chart.php" class="btn brand z-depth-0">Chart</a></li>
-                <button class="btn brand" id="scrapeBtn">SCRAPE</button>
+                <li>
+                <li><a href="clear.php" class="btn brand z-depth-0">Clear</a></li>
+                </li>
             </ul>
         </div>
     </nav> 
